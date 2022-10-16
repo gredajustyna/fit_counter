@@ -1,7 +1,7 @@
+import 'package:delayed_display/delayed_display.dart';
 import 'package:fit_counter/config/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 
 class StartView extends StatefulWidget {
   const StartView({Key? key}) : super(key: key);
@@ -14,50 +14,70 @@ class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding:EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/35),
-            child: IconButton(
-              icon: const Icon(Ionicons.calendar, color: Colors.white,),
-              onPressed: () {
-
-              },
-            ),
-          ),
-        ],
-        backgroundColor: orange,
-        elevation: 0,
-        leading: Padding(
-          padding:EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/35),
-          child: IconButton(
-            icon: const Icon(Ionicons.settings, color: Colors.white,),
-            onPressed: () {
-
-            },
-          ),
-        ),
-      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        color: orange,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height/8,),
-              Text('Fit Counter',
-                style: TextStyle(
-                  color: deepBlue,
-                  fontFamily: GoogleFonts.openSans().fontFamily,
-                  fontSize: 40
-                ),
-              ),
-              Image.asset('assets/squat.gif', scale: 3,),
-              SizedBox(height: MediaQuery.of(context).size.height/3,),
-              _buildStartButton(),
-            ],
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.png"),
+            fit: BoxFit.cover,
           ),
         ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(MediaQuery.of(context).size.width/40),
+              child: DelayedDisplay(
+                delay: Duration(milliseconds: 1000),
+                child: Container(
+                  height: MediaQuery.of(context).size.height/3,
+                  width:  MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: deepBlue.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.width/40),
+                        child: Text(
+                            "Śledź i zapisuj swoje postępy",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: GoogleFonts.openSans().fontFamily,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/30),
+                        child: Text(
+                          "Dzięki FitCounter bądź zawsze w dobrej formie! Rozpocznij przygodę z fitnessem już teraz.",
+                          style: TextStyle(
+                              color: lightBlue,
+                              fontSize: 15,
+                            fontFamily: GoogleFonts.lato().fontFamily,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.width/20),
+                        child: _buildStartButton(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
       ),
     );
   }
@@ -65,27 +85,25 @@ class _StartViewState extends State<StartView> {
   Widget _buildStartButton(){
     return ElevatedButton(
       onPressed: () async{
-
+        Navigator.of(context).pushNamed('/setName');
       },
       child: Padding(
         padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4, vertical: MediaQuery.of(context).size.width/20 ),
         child: const Text(
-          'Zaczynamy!',
+          'Start!',
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 15
+              color: Colors.white,
+              fontSize: 15
           ),
         ),
       ),
       style: ButtonStyle(
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            )
-        ),
-        backgroundColor: MaterialStateProperty.all(deepBlue),
-        elevation: MaterialStateProperty.all<double>(10),
-        shadowColor: MaterialStateProperty.all(Colors.white)
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              )
+          ),
+          backgroundColor: MaterialStateProperty.all(lightBlue),
       ),
     );
   }

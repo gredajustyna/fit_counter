@@ -1,12 +1,26 @@
+import 'package:fit_counter/presentation/views/set_profile_views/set_name_view.dart';
+import 'package:fit_counter/presentation/views/start_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../presentation/views/start_view.dart';
+import '../../presentation/views/welcome_view.dart';
 
 class Routes{
   static Route? onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
         return _materialRoute(const StartView());
+      case '/setName':
+        return _materialRoute(const SetNameView());
+      case '/welcome':
+        return _materialRoute(const WelcomeView());
+      case '/settings':
+        return _materialRoute(const WelcomeView());
+      case '/history':
+        return _materialRoute(const WelcomeView());
+      case '/start':
+        return _materialRoute(const WelcomeView());
+      case '/stop':
+        return _materialRoute(const WelcomeView());
       default:
         return null;
     }
