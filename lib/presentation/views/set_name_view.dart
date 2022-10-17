@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../../config/themes/colors.dart';
+import '../../config/themes/colors.dart';
 
 class SetNameView extends StatefulWidget {
   const SetNameView({Key? key}) : super(key: key);
@@ -17,6 +17,9 @@ class _SetNameViewState extends State<SetNameView> {
   bool isWomanChecked = false;
   bool isManChecked = false;
   bool isOtherChecked = false;
+  bool isNotDailyGoal = true;
+  bool isDailyGoal = false;
+  int currentGoal = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +83,31 @@ class _SetNameViewState extends State<SetNameView> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20
+                                    fontSize: 15
                                   ),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                child: TextFormField(
-                                  controller: nameController,
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  child: TextFormField(
+                                    maxLength: 20,
+                                    controller: nameController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(width: 3.0, color: lightBlue),
+                                          borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide: BorderSide(width: 2.0, color: lightBlue),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      focusColor: Colors.white
+                                    ),
+                                    cursorColor: lightBlue,
+                                    style: TextStyle(color: deepBlue),
+                                  ),
                                 ),
                               ),
                             ],
@@ -128,7 +148,7 @@ class _SetNameViewState extends State<SetNameView> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20
+                                      fontSize: 15
                                   ),
                                 ),
                               ),
@@ -249,7 +269,6 @@ class _SetNameViewState extends State<SetNameView> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Container(
-                          height: MediaQuery.of(context).size.height/4,
                           width:  MediaQuery.of(context).size.width *0.95,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -271,22 +290,150 @@ class _SetNameViewState extends State<SetNameView> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20
+                                      fontSize: 15
                                   ),
                                 ),
                               ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      side: MaterialStateBorderSide.resolveWith(
+                                            (states) => BorderSide(width: 1.0, color: Colors.white),
+                                      ),
+                                      activeColor: lightBlue,
+                                      checkColor: deepBlue,
+                                      value: isNotDailyGoal,
+                                      onChanged: (value){
+                                        setState((){
+                                          isNotDailyGoal = !isNotDailyGoal;
+                                          isDailyGoal = false;
+                                        });
+                                      }
+                                  ),
+                                  Text(
+                                    "Nie chcę ustawiać celu",
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                      side: MaterialStateBorderSide.resolveWith(
+                                            (states) => BorderSide(width: 1.0, color: Colors.white),
+                                      ),
+                                      activeColor: lightBlue,
+                                      checkColor: deepBlue,
+                                      value: isDailyGoal,
+                                      onChanged: (value){
+                                        setState((){
+                                          isDailyGoal = !isDailyGoal;
+                                          isNotDailyGoal = false;
+                                        });
+                                      }
+                                  ),
+                                  Text(
+                                    "Ustaw dzienny cel",
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if(isDailyGoal) ...[
+                                Center(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          RawMaterialButton(
+                                            onPressed: (){
+                                              setState((){
+                                                if(currentGoal>0){
+                                                  currentGoal -=1;
+                                                }
+                                              });
+                                            },
+                                            child: Text("-", style: TextStyle(color: Colors.white),),
+                                          ),
+                                          Text(currentGoal.toString(), style: TextStyle(color: Colors.white)),
+                                          RawMaterialButton(
+                                            onPressed: (){
+                                              setState((){
+                                                currentGoal +=1;
+                                              });
+                                            },
+                                            child: Text("+", style: TextStyle(color: Colors.white)),
+                                          )
+                                        ],
+                                      ),
+                                      Text("powtórzeń", style: TextStyle(color: Colors.white))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              SizedBox(height: 20,)
                             ],
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height/30,)
+                    SizedBox(height: MediaQuery.of(context).size.height/30,),
+                    _buildStartButton(),
+                    SizedBox(height: MediaQuery.of(context).size.height/30,),
                   ],
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildStartButton(){
+    return ElevatedButton(
+      onPressed: () async{
+        if(!isNotDailyGoal && !isDailyGoal){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Zaznacz dzienny cel!", style: TextStyle(color: Colors.white),),
+            backgroundColor: orange,
+          ));
+        }else if(!isManChecked && !isWomanChecked && !isOtherChecked){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Zaznacz płeć!", style: TextStyle(color: Colors.white),),
+            backgroundColor: orange,
+          ));
+        }else if(nameController.text.isEmpty){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Podaj swoje imię!", style: TextStyle(color: Colors.white),),
+            backgroundColor: orange,
+          ));
+        }else{
+          Navigator.of(context).pushNamed('/welcome');
+        }
+      },
+      child: Padding(
+        padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4, vertical: MediaQuery.of(context).size.width/20 ),
+        child: const Text(
+          'Dalej',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 15
+          ),
+        ),
+      ),
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            )
+        ),
+        backgroundColor: MaterialStateProperty.all(lightBlue),
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:fit_counter/presentation/views/set_profile_views/set_name_view.dart';
+import 'package:fit_counter/presentation/views/set_name_view.dart';
 import 'package:fit_counter/presentation/views/start_view.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +10,9 @@ class Routes{
       case '/':
         return _materialRoute(const StartView());
       case '/setName':
-        return _materialRoute(const SetNameView());
+        return _createAnimatedRouteRight(const SetNameView());
       case '/welcome':
-        return _materialRoute(const WelcomeView());
+        return _createAnimatedRouteRight(const WelcomeView());
       case '/settings':
         return _materialRoute(const WelcomeView());
       case '/history':
