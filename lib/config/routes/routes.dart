@@ -1,5 +1,9 @@
+import 'package:fit_counter/presentation/views/count_view.dart';
+import 'package:fit_counter/presentation/views/history_view.dart';
 import 'package:fit_counter/presentation/views/set_name_view.dart';
+import 'package:fit_counter/presentation/views/settings_view.dart';
 import 'package:fit_counter/presentation/views/start_view.dart';
+import 'package:fit_counter/presentation/views/stop_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/views/welcome_view.dart';
@@ -14,13 +18,13 @@ class Routes{
       case '/welcome':
         return _createAnimatedRouteRight(const WelcomeView());
       case '/settings':
-        return _materialRoute(const WelcomeView());
+        return _materialRoute(const SettingsView());
       case '/history':
-        return _materialRoute(const WelcomeView());
+        return _materialRoute(const HistoryView());
       case '/start':
-        return _materialRoute(const WelcomeView());
+        return _materialRoute(const CountView());
       case '/stop':
-        return _materialRoute(const WelcomeView());
+        return _materialRoute(const StopView());
       default:
         return null;
     }
