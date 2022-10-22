@@ -37,6 +37,13 @@ dependencies:
   google_fonts: ^3.0.1
   ionicons: ^0.1.2
   delayed_display: ^2.0.0
+  shared_preferences: ^2.0.15
+  sqflite: ^2.0.3+1
+  path: ^1.8.1
+  intl: ^0.17.0
+  get_it: ^7.2.0
+  flutter_bloc: ^8.1.1
+  bloc: ^8.1.0
 
 dev_dependencies:
   flutter_test:

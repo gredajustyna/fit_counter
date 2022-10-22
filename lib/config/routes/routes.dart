@@ -29,6 +29,26 @@ class Routes{
         return null;
     }
   }
+  static Route? onGenerateRoutesLogged(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return _materialRoute(const StartView());
+      case '/setName':
+        return _createAnimatedRouteRight(const SetNameView());
+      case '/welcome':
+        return _createAnimatedRouteRight(const WelcomeView());
+      case '/settings':
+        return _materialRoute(const SettingsView());
+      case '/history':
+        return _materialRoute(const HistoryView());
+      case '/start':
+        return _materialRoute(const CountView());
+      case '/stop':
+        return _materialRoute(const StopView());
+      default:
+        return null;
+    }
+  }
 
   static Route<dynamic> _materialRoute(Widget view) {
     return MaterialPageRoute(builder: (_) => view);

@@ -1,6 +1,14 @@
 import 'package:fit_counter/config/themes/colors.dart';
+import 'package:fit_counter/data/repositories/codes_repository_impl.dart';
+import 'package:fit_counter/domain/entities/workout.dart';
+import 'package:fit_counter/presentation/blocs/add_workout_bloc/add_workout_bloc.dart';
+import 'package:fit_counter/presentation/blocs/add_workout_bloc/add_workout_event.dart';
+import 'package:fit_counter/presentation/blocs/get_all_workouts_bloc/get_all_workouts_bloc.dart';
+import 'package:fit_counter/presentation/blocs/get_all_workouts_bloc/get_all_workouts_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 
 class WelcomeView extends StatefulWidget {
@@ -11,6 +19,20 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> {
+
+  @override
+  void initState() {
+    getAndAddWorkouts();
+    super.initState();
+  }
+
+  Future <void> getAndAddWorkouts() async{
+    Workout workout = Workout(date: DateFormat('dd-MM-yyyy').format(DateTime.now()), time: '3:05', repetitions: 20);
+    print('kotki');
+    //BlocProvider.of<AddWorkoutBloc>(context).add(AddWorkout(workout));
+    BlocProvider.of<GetAllWorkoutsBloc>(context).add(GetAllWorkouts());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
