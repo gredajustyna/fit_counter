@@ -2,6 +2,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/themes/colors.dart';
 
@@ -414,6 +415,14 @@ class _SetNameViewState extends State<SetNameView> {
             backgroundColor: orange,
           ));
         }else{
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString("username", nameController.text);
+          prefs.setString("gender", isManChecked ? "man" : isWomanChecked ? "woman" : "other");
+          if(isDailyGoal){
+            prefs.setInt("goal", currentGoal);
+          }else{
+            prefs.setInt("goal", 0);
+          }
           Navigator.of(context).pushNamed('/welcome');
         }
       },

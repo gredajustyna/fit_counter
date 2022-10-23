@@ -1,6 +1,7 @@
 import 'package:fit_counter/presentation/blocs/add_workout_bloc/add_workout_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_all_workouts_bloc/get_all_workouts_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_repetitions_bloc/get_repetitions_bloc.dart';
+import 'package:fit_counter/presentation/blocs/set_goal_bloc/set_goal_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,9 @@ void main() async{
         ),
         BlocProvider<GetRepetitionsBloc>(
           create: (_) => injector<GetRepetitionsBloc>(),
+        ),
+        BlocProvider<SetGoalBloc>(
+          create: (_) => injector<SetGoalBloc>(),
         ),
       ],
       child: MyApp(preferences: prefs,)

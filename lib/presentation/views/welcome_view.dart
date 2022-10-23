@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeView extends StatefulWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -19,11 +20,17 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> {
+  late SharedPreferences prefs;
 
   @override
   void initState() {
     getAndAddWorkouts();
+    initPrefs();
     super.initState();
+  }
+
+  Future<void> initPrefs() async{
+    prefs = await SharedPreferences.getInstance();
   }
 
   Future <void> getAndAddWorkouts() async{
@@ -106,7 +113,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                                 color: Colors.white
                               ),
                             ),
-                            Text("Cześć, Y/N! 👋",
+                            Text("Cześć, ${prefs.getString("username")} 👋",
                               style: TextStyle(
                                 color: lightBlue,
                                 fontSize: 30,
@@ -189,7 +196,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                     color: Colors.white
                 ),
               ),
-              Text("Nie ustawiono",
+              Text((prefs.getInt("goal") ==0) ? "Nie ustawiono" : "${prefs.getInt("goal").toString()} powtórzeń",
                 style: TextStyle(
                     color: lightBlue,
                     fontSize: 30,

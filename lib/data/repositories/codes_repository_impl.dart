@@ -4,12 +4,14 @@ import 'package:fit_counter/domain/entities/workout.dart';
 import 'package:fit_counter/domain/repositories/codes_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 
 class CodesRepositoryImpl implements CodesRepository{
   final Database _database;
-  CodesRepositoryImpl(this._database);
+  final SharedPreferences preferences;
+  CodesRepositoryImpl(this._database, this.preferences);
 
   @override
   Future<void> addWorkout(Workout workout) async{
@@ -48,6 +50,11 @@ class CodesRepositoryImpl implements CodesRepository{
       print(event.x);
     }
     return 0;
+  }
+
+  @override
+  void setGoal(int goal) async {
+    preferences.setInt("goal", goal);
   }
 
 }

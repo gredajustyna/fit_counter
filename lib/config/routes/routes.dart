@@ -32,7 +32,7 @@ class Routes{
   static Route? onGenerateRoutesLogged(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const StartView());
+        return _materialRoute(const WelcomeView());
       case '/setName':
         return _createAnimatedRouteRight(const SetNameView());
       case '/welcome':
