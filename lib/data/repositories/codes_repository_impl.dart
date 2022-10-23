@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:fit_counter/domain/entities/workout.dart';
 import 'package:fit_counter/domain/repositories/codes_repository.dart';
 import 'package:intl/intl.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:sqflite/sqflite.dart';
 
 
@@ -35,6 +38,16 @@ class CodesRepositoryImpl implements CodesRepository{
           repetitions: maps[i]['repetitions']
       );
     });
+  }
+
+  @override
+  Future<int> getRepetitions(List<UserAccelerometerEvent> events) async{
+    print(events);
+    print("differences in x:");
+    for (UserAccelerometerEvent event in events){
+      print(event.x);
+    }
+    return 0;
   }
 
 }

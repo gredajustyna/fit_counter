@@ -1,5 +1,12 @@
+import 'dart:async';
+
 import 'package:fit_counter/config/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+
+import '../blocs/get_repetitions_bloc/get_repetitions_bloc.dart';
+import '../blocs/get_repetitions_bloc/get_repetitions_event.dart';
 
 class CountView extends StatefulWidget {
   const CountView({Key? key}) : super(key: key);
@@ -9,6 +16,28 @@ class CountView extends StatefulWidget {
 }
 
 class _CountViewState extends State<CountView> {
+  late StreamSubscription accel;
+  List<UserAccelerometerEvent> events=[];
+  late Timer timer;
+
+  @override
+  void initState() {
+    accel = userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+      events.add(event);
+    });
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if(accel.isPaused){
+        timer.cancel();
+      }else{
+        setState(() {
+
+        });
+      }
+    });
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +61,7 @@ class _CountViewState extends State<CountView> {
                     fontSize: 45
                   ),
                 ),
-                Text("0:24",
+                Text(formatTimer(timer.tick),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 35
@@ -46,7 +75,10 @@ class _CountViewState extends State<CountView> {
                 SizedBox(height: MediaQuery.of(context).size.height/4,),
                 ElevatedButton(
                   onPressed: () async{
-                    Navigator.of(context).pushNamed('/stop');
+                    accel.pause();
+                    BlocProvider.of<GetRepetitionsBloc>(context).add(GetRepetitions(events));
+                    accel.cancel();
+                    Navigator.of(context).popAndPushNamed('/stop');
                   },
                   child: Padding(
                     padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4, vertical: MediaQuery.of(context).size.width/20 ),
@@ -73,5 +105,23 @@ class _CountViewState extends State<CountView> {
         ),
       ),
     );
+  }
+
+  String formatTimer(int timer){
+    if(timer >=0 && timer <=9){
+      return "0:0$timer";
+    }else if(timer==60){
+      return "1:00";
+    } else if(timer>60){
+      var minutes = timer/60;
+      var secs = timer % 60;
+      if(secs <=9){
+        return "${minutes.toString().substring(0, minutes.toString().indexOf('.'))}:0$secs";
+      }else{
+        return "${minutes.toString().substring(0, minutes.toString().indexOf('.'))}:$secs";
+      }
+    }else{
+      return "0:$timer";
+    }
   }
 }
