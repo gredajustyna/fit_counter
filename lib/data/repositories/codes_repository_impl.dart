@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:scidart/scidart.dart';
 
 
 class CodesRepositoryImpl implements CodesRepository{
@@ -43,18 +44,85 @@ class CodesRepositoryImpl implements CodesRepository{
   }
 
   @override
-  Future<int> getRepetitions(List<UserAccelerometerEvent> events) async{
-    print(events);
-    print("differences in x:");
-    for (UserAccelerometerEvent event in events){
-      print(event.x);
+  Future<Workout> getRepetitions(Map<String, dynamic> events) async{
+    var reps = 0;
+    var threshold = 12;
+    var yevents = [];
+    for(AccelerometerEvent event in events['events']){
+      yevents.add(event.y);
     }
-    return 0;
+
+    var filteredEvents = filterFrequencies(yevents, 5);
+    var segment_start_locations = [];
+    var segment_end_locations = [];
+    var segment_started = false;
+
+    for(var event in yevents){
+      if(event > threshold){
+        if(!segment_started){
+          segment_start_locations.add(1);
+          segment_started = true;
+        }
+      }
+      if(event < threshold){
+        if(segment_started){
+          segment_end_locations.add(1);
+          segment_started = false;
+          reps+=1;
+        }
+      }
+    }
+    if(segment_started){
+      segment_end_locations.add(1);
+      reps+=1;
+    }
+    print("Number of reps is: $reps");
+
+    Workout workout = Workout(date: DateFormat('dd-MM-yyyy').format(DateTime.now()), time: events['time'], repetitions: reps);
+    return workout;
   }
 
   @override
   void setGoal(int goal) async {
     preferences.setInt("goal", goal);
+  }
+
+  @override
+  List filterFrequencies(List<dynamic> events, int filterSize) {
+    List<double> kernel = [];
+    for(int i=0; i<filterSize; i++){
+      kernel.add(1/filterSize);
+    }
+    var filteredEvents = convolve(events, kernel);
+    return filteredEvents;
+  }
+
+  @override
+  List convolve(List<dynamic> events, List<dynamic> kernel) {
+    var filteredSize =calculateFilteredSize(events.length, kernel.length);
+    int k = kernel.length;
+    var convolutionResult = [];
+    for(int i = 0; i<filteredSize; i++){
+      var currentMatrix = events.sublist(i, i+k);
+      double sum = 0;
+      for (int j=0; j<currentMatrix.length; j++){
+        sum += currentMatrix[j] * kernel[j];
+      }
+      convolutionResult.add(sum);
+    }
+    return convolutionResult;
+  }
+
+  @override
+  int calculateFilteredSize(int eventsSize, int filterSize) {
+    int size = 0;
+    for(int i=0; i<eventsSize; i++) {
+      var added = i + filterSize;
+      if(added <= filterSize){
+        size+=1;
+      }
+    }
+    return size;
   }
 
 }

@@ -24,20 +24,12 @@ class _WelcomeViewState extends State<WelcomeView> {
 
   @override
   void initState() {
-    getAndAddWorkouts();
     initPrefs();
     super.initState();
   }
 
   Future<void> initPrefs() async{
     prefs = await SharedPreferences.getInstance();
-  }
-
-  Future <void> getAndAddWorkouts() async{
-    Workout workout = Workout(date: DateFormat('dd-MM-yyyy').format(DateTime.now()), time: '3:05', repetitions: 20);
-    print('kotki');
-    //BlocProvider.of<AddWorkoutBloc>(context).add(AddWorkout(workout));
-    BlocProvider.of<GetAllWorkoutsBloc>(context).add(GetAllWorkouts());
   }
 
   @override

@@ -15,7 +15,7 @@ class GetRepetitionsBloc extends Bloc<GetRepetitionsEvent, GetRepetitionsState>{
     });
   }
 
-  Future<void> _handler(Emitter<GetRepetitionsState> emit, List<UserAccelerometerEvent> events) async {
+  Future<void> _handler(Emitter<GetRepetitionsState> emit, Map<String, dynamic> events) async {
     emit(GetRepetitionsLoading());
     try{
       var result = await _getRepetitionsUseCase(params: events);

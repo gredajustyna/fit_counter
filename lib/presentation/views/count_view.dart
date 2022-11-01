@@ -17,12 +17,12 @@ class CountView extends StatefulWidget {
 
 class _CountViewState extends State<CountView> {
   late StreamSubscription accel;
-  List<UserAccelerometerEvent> events=[];
+  List<AccelerometerEvent> events=[];
   late Timer timer;
 
   @override
   void initState() {
-    accel = userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+    accel = accelerometerEvents.listen((AccelerometerEvent event) {
       events.add(event);
     });
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -75,8 +75,10 @@ class _CountViewState extends State<CountView> {
                 SizedBox(height: MediaQuery.of(context).size.height/4,),
                 ElevatedButton(
                   onPressed: () async{
+                    var currentTime = formatTimer(timer.tick);
+                    Map<String, dynamic> eventsMap = {'events': events, "time": currentTime};
                     accel.pause();
-                    BlocProvider.of<GetRepetitionsBloc>(context).add(GetRepetitions(events));
+                    BlocProvider.of<GetRepetitionsBloc>(context).add(GetRepetitions(eventsMap));
                     accel.cancel();
                     Navigator.of(context).popAndPushNamed('/stop');
                   },

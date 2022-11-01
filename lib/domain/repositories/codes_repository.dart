@@ -10,7 +10,13 @@ abstract class CodesRepository {
 
   Future<void> deleteAllWorkouts();
 
-  Future<int> getRepetitions(List<UserAccelerometerEvent> events);
+  Future<Workout> getRepetitions(Map<String, dynamic> events);
 
   void setGoal(int goal);
+
+  List<dynamic> filterFrequencies(List<dynamic> events, int filterSize);
+
+  List<dynamic> convolve(List<dynamic> events, List<dynamic> kernel);
+
+  int calculateFilteredSize(int eventsSize, int filterSize);
 }

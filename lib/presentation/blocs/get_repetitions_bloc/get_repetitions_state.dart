@@ -1,6 +1,8 @@
+import '../../../domain/entities/workout.dart';
+
 abstract class GetRepetitionsState{
-  final int? repetitions;
-  const GetRepetitionsState({this.repetitions});
+  final Workout? workout;
+  const GetRepetitionsState({this.workout});
 }
 
 class GetRepetitionsInitial extends GetRepetitionsState{
@@ -12,7 +14,7 @@ class GetRepetitionsLoading extends GetRepetitionsState{
 }
 
 class GetRepetitionsDone extends GetRepetitionsState{
-  const GetRepetitionsDone(int repetitions):super(repetitions: repetitions);
+  const GetRepetitionsDone(Workout workout):super(workout: workout);
 }
 
 class GetRepetitionsError extends GetRepetitionsState{
