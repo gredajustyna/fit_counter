@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fit_counter/domain/entities/user.dart';
 import 'package:fit_counter/domain/entities/workout.dart';
 import 'package:fit_counter/domain/repositories/codes_repository.dart';
 import 'package:intl/intl.dart';
@@ -23,9 +24,9 @@ class CodesRepositoryImpl implements CodesRepository{
   }
 
   @override
-  Future<void> deleteAllWorkouts() {
-    // TODO: implement deleteAllWorkouts
-    throw UnimplementedError();
+  Future<void> deleteAllWorkouts() async{
+    final db = _database;
+    var res = await db.rawDelete('DELETE * FROM workouts');
   }
 
   @override
@@ -53,30 +54,24 @@ class CodesRepositoryImpl implements CodesRepository{
     }
 
     var filteredEvents = filterFrequencies(yevents, 5);
-    var segment_start_locations = [];
-    var segment_end_locations = [];
     var segment_started = false;
 
-    for(var event in yevents){
+    for(var event in filteredEvents){
       if(event > threshold){
         if(!segment_started){
-          segment_start_locations.add(1);
           segment_started = true;
         }
       }
       if(event < threshold){
         if(segment_started){
-          segment_end_locations.add(1);
           segment_started = false;
           reps+=1;
         }
       }
     }
     if(segment_started){
-      segment_end_locations.add(1);
       reps+=1;
     }
-    print("Number of reps is: $reps");
 
     Workout workout = Workout(date: DateFormat('dd-MM-yyyy').format(DateTime.now()), time: events['time'], repetitions: reps);
     return workout;
@@ -123,6 +118,15 @@ class CodesRepositoryImpl implements CodesRepository{
       }
     }
     return size;
+  }
+
+  @override
+  Future<User> getUser() async{
+    String username = preferences.getString('username')!;
+    String gender = preferences.getString('gender')!;
+    int goal = preferences.getInt('goal')!;
+    User user = User(username: username, goal: goal, gender: gender);
+    return user;
   }
 
 }

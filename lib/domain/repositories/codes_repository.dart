@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:fit_counter/domain/entities/workout.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
+import '../entities/user.dart';
+
 abstract class CodesRepository {
   Future<List<Workout>> getAllWorkouts();
 
@@ -19,4 +21,6 @@ abstract class CodesRepository {
   List<dynamic> convolve(List<dynamic> events, List<dynamic> kernel);
 
   int calculateFilteredSize(int eventsSize, int filterSize);
+
+  Future<User> getUser();
 }

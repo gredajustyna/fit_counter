@@ -55,7 +55,7 @@ class _SetNameViewState extends State<SetNameView> {
                     ),
                     DelayedDisplay(
                       slidingBeginOffset: Offset(1.0, 0),
-                      delay: Duration(milliseconds: 750),
+                      delay: Duration(milliseconds: 500),
                       child: Card(
                         color: Colors.transparent,
                         shape: RoundedRectangleBorder(
@@ -121,7 +121,7 @@ class _SetNameViewState extends State<SetNameView> {
 
                     DelayedDisplay(
                       slidingBeginOffset: Offset(-1.0, 0),
-                      delay: Duration(milliseconds: 1500),
+                      delay: Duration(milliseconds: 1000),
                       child: Card(
                         color: Colors.transparent,
                         shape: RoundedRectangleBorder(
@@ -263,7 +263,7 @@ class _SetNameViewState extends State<SetNameView> {
 
                     DelayedDisplay(
                       slidingBeginOffset: Offset(1.0, 0),
-                      delay: Duration(milliseconds: 2250),
+                      delay: Duration(milliseconds: 1500),
                       child: Card(
                         color: Colors.transparent,
                         shape: RoundedRectangleBorder(

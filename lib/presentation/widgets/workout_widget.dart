@@ -2,16 +2,16 @@ import 'package:fit_counter/config/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutWidget extends StatefulWidget {
-  const WorkoutWidget({Key? key}) : super(key: key);
+  final String date;
+  final String time;
+  final int repetitions;
+  const WorkoutWidget({Key? key, required this.repetitions, required this.time, required this.date}) : super(key: key);
 
   @override
   State<WorkoutWidget> createState() => _WorkoutWidgetState();
 }
 
 class _WorkoutWidgetState extends State<WorkoutWidget> {
-  String date = '22.10.2022';
-  String time = '2:54';
-  int repetitions = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +29,16 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(date, style: TextStyle(color: black, fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text(widget.date, style: TextStyle(color: black, fontWeight: FontWeight.bold, fontSize: 20),),
                   Text("czas:"),
-                  Text(time, style: TextStyle(color: lightBlue, fontSize: 25, fontWeight: FontWeight.bold),),
+                  Text(widget.time, style: TextStyle(color: lightBlue, fontSize: 25, fontWeight: FontWeight.bold),),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("liczba powtórzeń:"),
-                  Text(repetitions.toString(), style: TextStyle(color: lightBlue, fontSize: 50, fontWeight: FontWeight.bold),),
+                  Text(widget.repetitions.toString(), style: TextStyle(color: lightBlue, fontSize: 50, fontWeight: FontWeight.bold),),
                 ],
               )
             ],
