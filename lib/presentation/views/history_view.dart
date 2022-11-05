@@ -63,10 +63,12 @@ class _HistoryViewState extends State<HistoryView> {
   }
 
   Widget _buildWorkoutsList(List<Workout> workouts){
+    List<Workout> sorted = [...workouts];
+    sorted.sort((a,b) => a.date.compareTo(b.date));
     return ListView.builder(
-      itemCount: workouts.length,
+      itemCount: sorted.length,
       itemBuilder: (context, index){
-        return WorkoutWidget(repetitions: workouts[index].repetitions, time: workouts[index].time, date: workouts[index].date);
+        return WorkoutWidget(repetitions: sorted[index].repetitions, time: sorted[index].time, date: sorted[index].date);
       }
     );
   }

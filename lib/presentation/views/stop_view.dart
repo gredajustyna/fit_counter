@@ -100,7 +100,14 @@ class _StopViewState extends State<StopView> {
                       ElevatedButton(
                         onPressed: () async{
                           Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (route) => false);
-                          BlocProvider.of<AddWorkoutBloc>(context).add(AddWorkout(state.workout!));
+                          if(state.workout!.repetitions >0){
+                            BlocProvider.of<AddWorkoutBloc>(context).add(AddWorkout(state.workout!));
+                          }else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Nie wykonałeś żadnego przysiadu. Postęp nie zostanie zapisany.", style: TextStyle(color: Colors.white),),
+                              backgroundColor: orange,
+                            ));
+                          }
                         },
                         child: Padding(
                           padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/4, vertical: MediaQuery.of(context).size.width/20 ),

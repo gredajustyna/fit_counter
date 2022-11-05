@@ -56,7 +56,7 @@ class CodesRepositoryImpl implements CodesRepository{
     var filteredEvents = filterFrequencies(yevents, 5);
     var segment_started = false;
 
-    for(var event in filteredEvents){
+    for(var event in yevents){
       if(event > threshold){
         if(!segment_started){
           segment_started = true;

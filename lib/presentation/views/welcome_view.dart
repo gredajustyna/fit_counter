@@ -27,7 +27,7 @@ class WelcomeView extends StatefulWidget {
 }
 
 class _WelcomeViewState extends State<WelcomeView> {
-  List<int> xValues = [1,2,3,4,5,6,7];
+  List<int> xValues=[0,1,2,3,4,5,6];
 
   @override
   void initState() {
@@ -176,7 +176,7 @@ class _WelcomeViewState extends State<WelcomeView> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height/35, horizontal: MediaQuery.of(context).size.height/40),
-                child: Text("śledź swój postęp 📊",
+                child: Text("Śledź swój postęp 📊",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -187,16 +187,91 @@ class _WelcomeViewState extends State<WelcomeView> {
               BlocBuilder<GetAllWorkoutsBloc, GetAllWorkoutsState>(
                 builder: (_, state) {
                   if(state is GetAllWorkoutsDone){
+                    var newWorkouts = [];
+                    var xnValues = [];
+                    if(state.workouts!.length <7){
+                      for(int i=0; i< 7- state.workouts!.length; i++){
+                        newWorkouts.add(Workout(date: '', time: '', repetitions: 0));
+                        xnValues.add('');
+                      }
+                    }
+                    for(int i=0; i< state.workouts!.length; i++){
+                      newWorkouts.add(state.workouts![i]);
+                    }
                     return Center(
                       child: Container(
-                        width: 200,
-                        height: 200,
+                        width: 250,
+                        height: 250,
                         child: BarChart(
                           BarChartData(
-                            barGroups: state.workouts?.map((workout) => BarChartGroupData(barRods: [BarChartRodData(toY: workout.repetitions.toDouble())], x: xValues[state.workouts!.indexOf(workout)])).toList(),
+                            barGroups: newWorkouts.map((workout) => BarChartGroupData(barRods: [BarChartRodData(toY: workout.repetitions.toDouble(), color: orange)], x: xValues[newWorkouts.indexOf(workout)])).take(7).toList(),
                             titlesData: FlTitlesData(
-                              bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                              leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 30,
+                                  getTitlesWidget: (value, meta) {
+                                    String text = '';
+                                    switch (value.toInt()) {
+                                      case 0:
+                                        if(newWorkouts[0].date ==''){
+                                          text = '   ';
+                                        }else{
+                                         text =  newWorkouts[0].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 1:
+                                        if(newWorkouts[1].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[1].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 2:
+                                        if(newWorkouts[2].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[2].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 3:
+                                        if(newWorkouts[3].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[3].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 4:
+                                        if(newWorkouts[4].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[4].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 5:
+                                        if(newWorkouts[5].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[5].date.substring(0,5);
+                                        }
+                                        break;
+                                      case 6:
+                                        if(newWorkouts[6].date ==''){
+                                          text = '   ';
+                                        }else{
+                                          text =  newWorkouts[6].date.substring(0,5);
+                                        }
+                                        break;
+                                    }
+
+                                    return Text(text, style: TextStyle(fontSize: 8),);
+                                  },
+                                )
+                              ),
+                              leftTitles: AxisTitles(sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (context, value) => Text(value, style: TextStyle(),)
+                              )),
                               topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                               rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                             ),
