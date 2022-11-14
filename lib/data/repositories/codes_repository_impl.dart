@@ -26,7 +26,10 @@ class CodesRepositoryImpl implements CodesRepository{
   @override
   Future<void> deleteAllWorkouts() async{
     final db = _database;
-    var res = await db.rawDelete('DELETE * FROM workouts');
+    var res = await db.rawDelete('DELETE FROM workouts');
+    print(res);
+    preferences.clear();
+    print('cleared');
   }
 
   @override

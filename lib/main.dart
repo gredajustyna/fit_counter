@@ -1,4 +1,5 @@
 import 'package:fit_counter/presentation/blocs/add_workout_bloc/add_workout_bloc.dart';
+import 'package:fit_counter/presentation/blocs/delete_workouts_bloc/delete_workouts_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_all_workouts_bloc/get_all_workouts_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_repetitions_bloc/get_repetitions_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_user_bloc/get_user_bloc.dart';
@@ -32,6 +33,9 @@ void main() async{
         ),
         BlocProvider<GetUserBloc>(
           create: (_) => injector<GetUserBloc>(),
+        ),
+        BlocProvider<DeleteWorkoutsBloc>(
+          create: (_) => injector<DeleteWorkoutsBloc>(),
         ),
       ],
       child: MyApp(preferences: prefs,)

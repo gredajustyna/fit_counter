@@ -270,7 +270,6 @@ class _WelcomeViewState extends State<WelcomeView> {
                               ),
                               leftTitles: AxisTitles(sideTitles: SideTitles(
                                 showTitles: true,
-                                getTitlesWidget: (context, value) => Text(value, style: TextStyle(),)
                               )),
                               topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
                               rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),

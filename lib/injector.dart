@@ -1,9 +1,11 @@
 import 'package:fit_counter/domain/usecases/add_workout_usecase.dart';
+import 'package:fit_counter/domain/usecases/delete_workouts_usecase.dart';
 import 'package:fit_counter/domain/usecases/get_all_workouts_usecase.dart';
 import 'package:fit_counter/domain/usecases/get_repetitions_usecase.dart';
 import 'package:fit_counter/domain/usecases/get_user_usecase.dart';
 import 'package:fit_counter/domain/usecases/set_goal_usecase.dart';
 import 'package:fit_counter/presentation/blocs/add_workout_bloc/add_workout_bloc.dart';
+import 'package:fit_counter/presentation/blocs/delete_workouts_bloc/delete_workouts_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_all_workouts_bloc/get_all_workouts_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_repetitions_bloc/get_repetitions_bloc.dart';
 import 'package:fit_counter/presentation/blocs/get_user_bloc/get_user_bloc.dart';
@@ -32,10 +34,12 @@ Future<void> initializeDependencies() async {
   injector.registerFactory<GetRepetitionsBloc>(() => GetRepetitionsBloc(injector()));
   injector.registerFactory<SetGoalBloc>(() => SetGoalBloc(injector()));
   injector.registerFactory<GetUserBloc>(() => GetUserBloc(injector()));
+  injector.registerFactory<DeleteWorkoutsBloc>(() => DeleteWorkoutsBloc(injector()));
 
   injector.registerSingleton<AddWorkoutUseCase>(AddWorkoutUseCase(injector()));
   injector.registerSingleton<GetAllWorkoutsUseCase>(GetAllWorkoutsUseCase(injector()));
   injector.registerSingleton<GetRepetitionsUseCase>(GetRepetitionsUseCase(injector()));
   injector.registerSingleton<SetGoalUseCase>(SetGoalUseCase(injector()));
   injector.registerSingleton<GetUserUseCase>(GetUserUseCase(injector()));
+  injector.registerSingleton<DeleteAllWorkoutsUseCase>(DeleteAllWorkoutsUseCase(injector()));
 }
