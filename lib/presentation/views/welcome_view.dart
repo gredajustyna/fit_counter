@@ -68,8 +68,8 @@ class _WelcomeViewState extends State<WelcomeView> {
                                       padding:EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/35),
                                       child: IconButton(
                                         icon: const Icon(Ionicons.settings_outline, color: Colors.white,),
-                                        onPressed: () {
-                                          Navigator.of(context).pushNamed("/settings");
+                                        onPressed: () async{
+                                          Navigator.of(context).pushNamed("/settings").then((_) => setState(() {}));
                                         },
                                       ),
                                     ),
@@ -316,7 +316,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           ),
           ElevatedButton(
             onPressed: () async{
-              Navigator.of(context).pushNamed("/settings");
+              Navigator.of(context).pushNamed("/settings").then((_) => setState(() {}));
             },
             child: const Text(
               'Zmień',

@@ -70,7 +70,7 @@ class _CountViewState extends State<CountView> {
                 SizedBox(height: MediaQuery.of(context).size.height/8,),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/20, vertical: MediaQuery.of(context).size.width/20),
-                  child: Text('Zablokuj ekran, wykonuj przysiady a po zakończeniu ćwiczenia kliknij przycisk "zakończ"', style: TextStyle(color: black, fontSize: 20), textAlign: TextAlign.center,),
+                  child: Text('Trzymaj telefon oburącz przed sobą, wykonuj przysiady a po zakończeniu ćwiczenia kliknij przycisk "zakończ"', style: TextStyle(color: black, fontSize: 20), textAlign: TextAlign.center,),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height/4,),
                 ElevatedButton(

@@ -27,9 +27,7 @@ class CodesRepositoryImpl implements CodesRepository{
   Future<void> deleteAllWorkouts() async{
     final db = _database;
     var res = await db.rawDelete('DELETE FROM workouts');
-    print(res);
     preferences.clear();
-    print('cleared');
   }
 
   @override
@@ -50,7 +48,7 @@ class CodesRepositoryImpl implements CodesRepository{
   @override
   Future<Workout> getRepetitions(Map<String, dynamic> events) async{
     var reps = 0;
-    var threshold = 12;
+    var threshold = 10;
     var yevents = [];
     for(AccelerometerEvent event in events['events']){
       yevents.add(event.y);
@@ -59,7 +57,8 @@ class CodesRepositoryImpl implements CodesRepository{
     var filteredEvents = filterFrequencies(yevents, 5);
     var segment_started = false;
 
-    for(var event in yevents){
+
+    for(var event in filteredEvents){
       if(event > threshold){
         if(!segment_started){
           segment_started = true;
@@ -116,7 +115,7 @@ class CodesRepositoryImpl implements CodesRepository{
     int size = 0;
     for(int i=0; i<eventsSize; i++) {
       var added = i + filterSize;
-      if(added <= filterSize){
+      if(added <= eventsSize){
         size+=1;
       }
     }
